@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, Button, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Button, FlatList, StyleSheet, TouchableOpacity,SafeAreaView } from 'react-native';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { tasksState, usePersistedTasks } from '../state';
 import Timer from '../components/Timer';
@@ -35,7 +35,8 @@ const HomeScreen = ({ navigation }) => {
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
       <Timer />
 
       <FlatList
@@ -50,7 +51,8 @@ const HomeScreen = ({ navigation }) => {
       >
         <Text style={styles.addButtonText}>Create Task</Text>
       </TouchableOpacity>
-    </View>
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -58,6 +60,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    backgroundColor:'#F4C2C2'
   },
   addButton: {
     backgroundColor: 'green',

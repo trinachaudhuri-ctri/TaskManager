@@ -1,5 +1,12 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native';
+import React, { useState } from "react";
+import Icon from "react-native-vector-icons/Ionicons";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Animated,
+} from "react-native";
 
 const TaskCard = ({ task, onPress, onDelete }) => {
   const [fadeAnim] = useState(new Animated.Value(1));
@@ -22,9 +29,26 @@ const TaskCard = ({ task, onPress, onDelete }) => {
   return (
     <TouchableOpacity onPress={handlePress} style={styles.card}>
       <Animated.View style={{ ...styles.cardContent, opacity: fadeAnim }}>
-        <Text style={styles.title}>{task.title}</Text>
-        <Text style={styles.description}>{task.description}</Text>
-        <Text style={styles.status}>{task.completed ? 'Complete' : 'Incomplete'}</Text>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <View>
+            <Text style={styles.title}>{task.title}</Text>
+            <Text style={styles.description}>{task.description}</Text>
+          </View>
+          <View>
+            <Text style={styles.status}>
+              {task.completed ? (
+                <Icon
+                  name="checkbox"
+                  color={"green"}
+                  size={30}
+                />
+              ) : (
+                <Icon name="checkbox-outline" size={30}/>
+              )}
+            </Text>
+          </View>
+        </View>
+
         <TouchableOpacity onPress={onDelete} style={styles.deleteButton}>
           <Text style={styles.deleteButtonText}>Delete</Text>
         </TouchableOpacity>
@@ -36,8 +60,17 @@ const TaskCard = ({ task, onPress, onDelete }) => {
 const styles = StyleSheet.create({
   card: {
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
+    borderColor: "#ccc",
+    backgroundColor:"white",
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 1.0,
+    elevation: 1,
+    borderRadius: 20,
     padding: 16,
     margin: 8,
   },
@@ -46,7 +79,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   description: {
     fontSize: 16,
@@ -54,19 +87,19 @@ const styles = StyleSheet.create({
   },
   status: {
     fontSize: 14,
-    color: '#888',
+    color: "#888",
     marginTop: 8,
   },
   deleteButton: {
-    backgroundColor: 'red',
+    backgroundColor: "red",
     padding: 8,
     borderRadius: 4,
     marginTop: 8,
-    alignItems: 'center',
+    alignItems: "center",
   },
   deleteButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
   },
 });
 

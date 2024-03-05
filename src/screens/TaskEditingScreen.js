@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, SafeAreaView } from 'react-native';
 import { useRecoilState } from 'recoil';
 import { tasksState } from '../state';
 
@@ -27,7 +27,7 @@ const TaskEditingScreen = ({ route, navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.label}>Task Title</Text>
       <TextInput
         style={styles.input}
@@ -46,7 +46,7 @@ const TaskEditingScreen = ({ route, navigation }) => {
       />
 
       <Button title="Save" onPress={handleSave} />
-    </View>
+    </SafeAreaView>
   );
 };
 

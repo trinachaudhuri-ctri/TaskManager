@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text } from 'react-native';
+import { Text,StyleSheet } from 'react-native';
 
 const Timer = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -18,10 +18,16 @@ const Timer = () => {
   const padWithZero = (number) => (number < 10 ? `0${number}` : `${number}`);
 
   return (
-    <Text>
-      Current Time: {formattedTime(currentTime)}
+    <Text style={styles.time}>
+      {formattedTime(currentTime)}
     </Text>
   );
 };
 
 export default Timer;
+const styles=StyleSheet.create({
+  time:{
+    fontSize:24,
+    justifyContent:'center'
+  }
+})
