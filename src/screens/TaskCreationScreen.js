@@ -36,7 +36,8 @@ const TaskCreationScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
-        <Text style={styles.label}>Title</Text>
+        {/* <Text style={styles.label}>Title</Text> */}
+        <View style={styles.textarea}>
         <TextInput
           style={styles.input}
           placeholder="Enter task title"
@@ -44,7 +45,7 @@ const TaskCreationScreen = ({ navigation }) => {
           onChangeText={(text) => setTaskTitle(text)}
         />
 
-        <Text style={styles.label}>Description</Text>
+        {/* <Text style={styles.label}>Description</Text> */}
         <TextInput
           style={styles.input}
           placeholder="Enter task description"
@@ -55,6 +56,7 @@ const TaskCreationScreen = ({ navigation }) => {
         <TouchableOpacity onPress={handleSave} style={styles.saveButton}>
           <Text style={styles.buttonText}>Save</Text>
         </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -63,9 +65,17 @@ const TaskCreationScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
     justifyContent: "center",
     backgroundColor: "#F4C2C2",
+    padding:20
+  },
+  textarea:{
+    padding:50,
+    backgroundColor:'#fff',
+    justifyContent:"center",
+    borderRadius:10,
+    elevation:8,
+    zIndex:8
   },
   label: {
     fontSize: 16,
