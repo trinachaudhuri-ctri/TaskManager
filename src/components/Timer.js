@@ -26,8 +26,8 @@ const Timer = () => {
 
 export default Timer;
 const styles=StyleSheet.create({
-  time:{
-    fontSize:24,
-    justifyContent:'center'
-  }
+  time: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
 })

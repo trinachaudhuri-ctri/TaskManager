@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import TaskCard from "../components/TaskCard";
 import Timer from "../components/Timer";
+import Dates from "../components/Date";
 import useLoadPersistedObject from "../state";
 
 const HomeScreen = ({ navigation }) => {
@@ -22,17 +23,15 @@ const HomeScreen = ({ navigation }) => {
     if (item.id === -1) {
       return null;
     }
-    return (
-      <TaskCard
-        task={item}
-        onDelete={() => handleDeleteTask(item.id)}
-      />
-    );
+    return <TaskCard task={item} onDelete={() => handleDeleteTask(item.id)} />;
   };
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
-        <Timer />
+        <View style={{ justifyContent: "space-between" ,flexDirection:'row'}}>
+          <Timer />
+          <Dates />
+        </View>
 
         <FlatList
           data={persistedObject}
