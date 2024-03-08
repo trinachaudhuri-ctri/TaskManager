@@ -1,56 +1,53 @@
-import React, { useEffect } from 'react';
-import { View, Text, Button, FlatList, StyleSheet, TouchableOpacity,SafeAreaView } from 'react-native';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { tasksState, usePersistedTasks } from '../state';
-import Timer from '../components/Timer';
-import TaskCard from '../components/TaskCard';
+import React from "react";
+import {
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import TaskCard from "../components/TaskCard";
+import Timer from "../components/Timer";
+import useLoadPersistedObject from "../state";
 
 const HomeScreen = ({ navigation }) => {
-  const tasks = useRecoilValue(tasksState) ?? [];
-  const setTasks = useSetRecoilState(tasksState) ?? null;
-  const persistTasks = usePersistedTasks();
+  const { persistedObject, deleteObjectById } =
+    useLoadPersistedObject("persistedObjects");
+  const handleDeleteTask = (taskId) => {
+    deleteObjectById(taskId);
+  };
 
-  useEffect(() => {
-    persistTasks(tasks);
-  }, [tasks, persistTasks]);
-
-  const handleToggleTask = (taskId) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) =>
-        task.id === taskId ? { ...task, completed: !task.completed } : task
-      )
+  const renderItem = ({ item }) => {
+    if (item.id === -1) {
+      return null;
+    }
+    return (
+      <TaskCard
+        task={item}
+        onDelete={() => handleDeleteTask(item.id)}
+      />
     );
   };
-
-  const handleDeleteTask = (taskId) => {
-    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
-  };
-
-  const renderItem = ({ item }) => (
-    <TaskCard
-      task={item}
-      onPress={() => handleToggleTask(item.id)}
-      onDelete={() => handleDeleteTask(item.id)}
-    />
-  );
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
-      <Timer />
+        <Timer />
 
-      <FlatList
-        data={tasks}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={renderItem}
-      />
+        <FlatList
+          data={persistedObject}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={renderItem}
+        />
 
-      <TouchableOpacity
-        style={styles.addButton}
-        onPress={() => navigation.navigate('TaskCreation')}
-      >
-        <Text style={styles.addButtonText}>Create Task</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.addButton}
+          onPress={() => {
+            navigation.navigate("TaskCreation");
+          }}
+        >
+          <Text style={styles.addButtonText}>Create Task</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -60,20 +57,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor:'#F4C2C2'
+    backgroundColor: "#F4C2C2",
   },
   addButton: {
-    backgroundColor: 'green',
+    backgroundColor: "green",
     padding: 16,
     borderRadius: 8,
-    alignItems: 'center',
-    position: 'absolute',
+    alignItems: "center",
+    position: "absolute",
     bottom: 16,
     right: 16,
   },
   addButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
   },
 });
 

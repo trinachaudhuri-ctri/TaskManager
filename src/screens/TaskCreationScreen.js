@@ -1,22 +1,28 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState } from "react";
 import {
-  View,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  Button,
-  StyleSheet,
   SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from "react-native";
-import { useSetRecoilState } from "recoil";
-import { tasksState } from "../state";
-
 const TaskCreationScreen = ({ navigation }) => {
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
-  const setTasks = useSetRecoilState(tasksState);
-
-  const handleSave = () => {
+  const saveObjectToAsyncStorage = async (objectToPersist) => {
+    try {
+      const currentObjectsJSON = await AsyncStorage.getItem('persistedObjects');
+      const currentObjects = currentObjectsJSON ? JSON.parse(currentObjectsJSON) : [];
+      console.log('curr objects',currentObjects);
+      const updatedObjects = [...currentObjects, objectToPersist];
+      await AsyncStorage.setItem('persistedObjects', JSON.stringify(updatedObjects));
+    } catch (error) {
+      console.error('Error saving object to AsyncStorage:', error);
+    }
+  };
+  const handleSave = async() => {
     if (taskTitle.trim() === "") {
       alert("Please enter a task title.");
       return;
@@ -28,15 +34,13 @@ const TaskCreationScreen = ({ navigation }) => {
       description: taskDescription,
       completed: false,
     };
-
-    setTasks((prevTasks) => [...prevTasks, newTask]);
+    saveObjectToAsyncStorage(newTask)
     navigation.goBack();
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
-        {/* <Text style={styles.label}>Title</Text> */}
         <View style={styles.textarea}>
         <TextInput
           style={styles.input}
@@ -45,7 +49,6 @@ const TaskCreationScreen = ({ navigation }) => {
           onChangeText={(text) => setTaskTitle(text)}
         />
 
-        {/* <Text style={styles.label}>Description</Text> */}
         <TextInput
           style={styles.input}
           placeholder="Enter task description"

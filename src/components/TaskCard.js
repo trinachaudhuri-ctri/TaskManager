@@ -8,16 +8,17 @@ import {
   Animated,
 } from "react-native";
 
-const TaskCard = ({ task, onPress, onDelete }) => {
+const TaskCard = ({ task,  onDelete }) => {
   const [fadeAnim] = useState(new Animated.Value(1));
+  const [checked,isChecked]=useState(false)
 
   const handlePress = () => {
+    isChecked(!checked)
     Animated.timing(fadeAnim, {
       toValue: 0.5,
       duration: 300,
       useNativeDriver: false,
     }).start(() => {
-      onPress();
       Animated.timing(fadeAnim, {
         toValue: 1,
         duration: 300,
@@ -36,7 +37,7 @@ const TaskCard = ({ task, onPress, onDelete }) => {
           </View>
           <View>
             <Text style={styles.status}>
-              {task.completed ? (
+              {checked ? (
                 <Icon
                   name="checkbox"
                   color={"green"}
